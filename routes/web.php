@@ -30,14 +30,14 @@ Route::middleware('auth')->group(function () {
 });
 
 /**
- * Todas las rutas se pueden definir utilizando un controlador de recursos, siguiendo una estructura condicional 
+ * Todas las rutas se pueden definir utilizando un controlador de recursos, siguiendo una estructura condicional
  * - index :: La ruta se utiliza para mostrar el formulario y una lista
  * - store :: La ruta se utiliza para guardar nuevos recursos
 */
 Route::resource('chirps', ChirpController::class)
     ->only(['index', 'store'])
     /**
-     * Las rutas anteriores utilizan 2 middleware 
+     * Las rutas anteriores utilizan 2 middleware
      * - auth :: Garantiza que solo los usuarios registrados puedan acceder a la ruta
      * - verified :: Se utiliza para habilitar la verificacion de correo electronico
     */
