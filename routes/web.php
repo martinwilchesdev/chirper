@@ -35,12 +35,16 @@ Route::middleware('auth')->group(function () {
  * - store :: La ruta se utiliza para guardar nuevos recursos
 */
 Route::resource('chirps', ChirpController::class)
-    ->only(['index', 'store'])
+    ->only(['index', 'store', 'edit', 'update'])
     /**
      * Las rutas anteriores utilizan 2 middleware
      * - auth :: Garantiza que solo los usuarios registrados puedan acceder a la ruta
      * - verified :: Se utiliza para habilitar la verificacion de correo electronico
     */
-    ->middleware(['auth', 'verified']);
+    ->middleware(['auth']);
+
+// Route::resource('chirps/:id', ChirpController::class)
+//     ->only(['edit', 'update'])
+//     ->middleware(['auth']);
 
 require __DIR__.'/auth.php';

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use App\Models\Chirp;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\RedirectResponse;
 
 class ChirpController extends Controller
 {
@@ -13,10 +16,12 @@ class ChirpController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
-        //
-        return view('chirps.index');
+        //El metodo with carga a cada usuario y los mensajes que tiene asociados
+        return view('chirps.index', [
+            'chirps' => Chirp::with('user')->latest()->get()
+        ]);
     }
 
     /**
@@ -66,9 +71,15 @@ class ChirpController extends Controller
      * @param  \App\Models\Chirp  $chirp
      * @return \Illuminate\Http\Response
      */
-    public function edit(Chirp $chirp)
+    public function edit(Chirp $chirp): View
     {
-        //
+        // Laravel automaticamente carga el modelo Chirp de la base de datos para que este pueda ser pasado directamente a la vista
+        // Validacion de que el usuario que accede a la ruta esta autorizado
+        Gate::authorize('update', $chirp);
+
+        return view('chirps.edit', [
+            'chirp' => $chirp
+        ]);
     }
 
     /**
@@ -78,9 +89,19 @@ class ChirpController extends Controller
      * @param  \App\Models\Chirp  $chirp
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Chirp $chirp)
+    public function update(Request $request, Chirp $chirp): RedirectResponse
     {
-        //
+        // Validacion de que el usuario que accede a la ruta esta autorizado
+        Gate::authorize('update', $chirp);
+
+        $validated = $request->validate([
+            'message' => 'required|string|max:255'
+        ]);
+
+        // Se actualiza en el base de datos el mensaje validado previamente
+        $chirp->update($validated);
+
+        return redirect(route('chirps.index'));
     }
 
     /**
@@ -89,7 +110,7 @@ class ChirpController extends Controller
      * @param  \App\Models\Chirp  $chirp
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Chirp $chirp)
+    public function destroy(Chirp $chirp): RedirectResponse
     {
         //
     }

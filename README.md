@@ -52,3 +52,19 @@ Retornar los datos almacenados en la tabla relacionada a un modelo especifico mo
 php artisan tinker
 App\Models\Chirp::all()
 ```
+
+## Authorizacion
+
+Por defecto el metodo `authorization` previene que cualquiera sea capaz de realizar actualizaciones a la base de datos.
+
+Se puede especificar quien esta esta permitido para realizar actualizaciones creando un `Model Policy`.
+
+```sh
+php artisan make:policy ChirpPolicy --model=chirp
+```
+
+El comando anterior crear una clase en la ruta `app\policies\ChirpPolicy.php`. En el metodo `update` de la clase se puede especificar que usuario puede realizar actualizaciones.
+
+    public function update(User $user, Chirp $chirp): bool {
+        return $chirp->user()->is($user);
+    }
