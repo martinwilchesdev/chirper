@@ -64,9 +64,10 @@ class ChirpPolicy
      * @param  \App\Models\Chirp  $chirp
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Chirp $chirp)
+    public function delete(User $user, Chirp $chirp): bool
     {
-        //
+        // Al igual que con la edicion, se valida que solo los autores de mensajes puedan eliminar su propios mensajes
+        return $this->update($user, $chirp);
     }
 
     /**

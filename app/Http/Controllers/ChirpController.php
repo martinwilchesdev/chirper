@@ -112,6 +112,11 @@ class ChirpController extends Controller
      */
     public function destroy(Chirp $chirp): RedirectResponse
     {
-        //
+        // Validar que el usuario que accede a la ruta este autorizado
+        Gate::authorize('delete', $chirp);
+
+        $chirp->delete();
+
+        return redirect(route('chirps.index'));
     }
 }

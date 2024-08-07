@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
  * - store :: La ruta se utiliza para guardar nuevos recursos
 */
 Route::resource('chirps', ChirpController::class)
-    ->only(['index', 'store', 'edit', 'update'])
+    ->only(['index', 'store', 'edit', 'update', 'destroy'])
     /**
      * Las rutas anteriores utilizan 2 middleware
      * - auth :: Garantiza que solo los usuarios registrados puedan acceder a la ruta
