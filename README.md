@@ -41,3 +41,14 @@ El comando anterior crea:
 - El modelo Eloquent
 - La migracion que creara las tablas en la base de datos
 - El controlador HTTP que procesara la peticiones entrantes y retornara una respuesta
+
+### Tinker
+
+Tinker permite ejecutar arbitrariamente codigo PHP en una aplicacion de Laravel.
+
+Retornar los datos almacenados en la tabla relacionada a un modelo especifico modelo.
+
+```bash
+php artisan tinker
+App\Models\Chirp::all()
+```
